@@ -1,0 +1,37 @@
+'use strict';
+
+var React = require('react-native');
+
+// Import new component
+var Main = require('./App/Components/Main');
+
+var {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  NavigatorIOS,
+  View,
+} = React;
+
+// Stylesheet for the component
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#111111'
+  },
+});
+
+// New class for the component
+class WeatherApp extends React.Component {
+  render() {
+    return (
+      <NavigatorIOS style={styles.container}
+        initialRoute = {{
+          title: 'Weather | FerzCo',
+          component: Main
+      }} />
+    );
+  }
+};
+
+AppRegistry.registerComponent('WeatherApp', () => WeatherApp);
