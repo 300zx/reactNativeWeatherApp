@@ -28,7 +28,7 @@ class WeatherApp extends React.Component {
       <NavigatorIOS style={styles.container}
         initialRoute = {{
           title: 'Weather | FerzCo',
-          component: Main
+          component: Main,
       }} />
     );
   }

@@ -1,27 +1,9 @@
 var Api = {
   getLocation(city) {
-    // Location
-  },
-  getSummary() {
-    // Summary
-  },
-  getTemperature() {
-    // Temperature
-  },
-  getHumidity() {
-    // Humidity
-  },
-  getTimzone() {
-    // Time
-  },
-  getIcon() {
-    // Icon
-  },
-  getPrecipChance() {
-    // Precipitation probability
-  },
-  getCurrentTime() {
-    // Current time
+    city = city.toLowerCase().trim();
+    var apiKey = 'e635e18c566727900c458fa2ae6c4e03';
+    var url = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiKey;
+    return fetch(url).then((res) => res.json());
   }
 };
 

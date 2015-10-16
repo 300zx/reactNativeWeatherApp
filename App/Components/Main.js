@@ -1,4 +1,10 @@
 var React = require('react-native');
+var Api = require('../Utils/Api');
+var Dashboard = require('./Dashboard');
+
+//  NOTES:
+//  check for the spinner, not centered
+//
 
 var {
   View,
@@ -50,7 +56,7 @@ var styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
-  },
+  }
 });
 
 class Main extends React.Component {
@@ -72,11 +78,32 @@ class Main extends React.Component {
     this.setState({
       isLoading: true
     });
-    console.log('Submit', this.state.city)
-    // fetch data from API
-    // reroute to the next activity with information displayed
+    Api.getLocation(this.state.city)
+      .then((res) => {
+        // console.log(res.message); to check request
+        if (res.message === "Error: Not found city") {
+          this.setState({
+            error: 'City not found',
+            isLoading: false
+          })
+        } else {
+          this.props.navigator.push({
+            title: res.name || "Select an option",
+            component: Dashboard,
+            passProps: {cityInfo: res}
+          });
+          this.setState({
+            isLoading: false,
+            error: false,
+            city: ''
+          })
+        }
+      });
   }
   render() {
+    var showErr = (
+      this.state.error ? <Text> {this.state.error} </Text> : <View></View>
+    );
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.title}>Enter your city</Text>
@@ -90,6 +117,12 @@ class Main extends React.Component {
           underlayColor="white"> 
           <Text style={styles.buttonText}>Search </Text>
         </TouchableHighlight>
+        <ActivityIndicatorIOS
+          animating={this.state.isLoading}
+          color="#111"
+          size="large">
+        </ActivityIndicatorIOS>
+        {showErr}
       </View>
     )
   }
